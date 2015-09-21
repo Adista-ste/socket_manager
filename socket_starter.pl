@@ -111,9 +111,11 @@ $local->autoflush(1);   # To send response immediately
 
 print "At your service. Waiting...\n";
 
-my $addr;       # Client handle
+#my $addr;       # Client handle
 
-while ($addr = $local->accept() ) {     # receive a request
+while (my $addr = $local->accept() ) {     # receive a request
+	next if my $pid = fork;
+	close($local);
 
         printf   "Connected from:  %s Port: %s\n", $addr->peerhost(), $addr->peerport();  
 
